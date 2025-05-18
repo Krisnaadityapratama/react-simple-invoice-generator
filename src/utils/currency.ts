@@ -1,18 +1,15 @@
 /**
- * Format rupiah.
+ * Format number to Indonesian Rupiah.
  *
  * @param {number} num
  * @return {string}
  */
 export const formatRupiah = (num: number): string => {
-  const tempNum = String(num).split('').reverse();
-  let rupiah = '';
+  if (isNaN(num)) return 'Rp0';
 
-  for (let i = 0; i < tempNum.length; i++) {
-    if ((i + 1) % 3 == 0 && i != tempNum.length - 1) {
-      tempNum[i] = `.${tempNum[i]}`;
-    }
-  }
-  rupiah = tempNum.reverse().join('');
-  return rupiah;
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  }).format(num);
 };

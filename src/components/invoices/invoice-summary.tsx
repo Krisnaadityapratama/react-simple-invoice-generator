@@ -5,10 +5,10 @@ import { Box, EditableText, Typography } from '@/components/base';
 
 // Hooks.
 import { useGenerator } from '@/hooks/useGenerator';
+import { useInvoice } from '@/hooks';
 
 // Utilities.
-// import { formatRupiah } from '@/utils/currency';
-import { useInvoice } from '@/hooks';
+import { formatRupiah } from '@/utils/currency';
 
 // Styles.
 const rowStyles = {
@@ -35,7 +35,7 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
   const { updateTaxRate } = useInvoice();
 
   const total = useMemo(() => {
-    return (typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined' ? subTotal + saleTax : 0).toFixed(2);
+    return typeof subTotal !== 'undefined' && typeof saleTax !== 'undefined' ? subTotal + saleTax : 0;
   }, [subTotal, saleTax]);
 
   const onChangeTaxRate = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -44,6 +44,7 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
 
   return (
     <Box>
+      {/* Subtotal */}
       <Box
         style={{
           ...rowStyles,
@@ -54,16 +55,10 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
         }}
       >
         <Box style={{ width: '62%', ...colStyles }}>
-          <Typography
-            style={{
-              fontWeight: 600,
-            }}
-          >
-            {'Sub Total'}
-          </Typography>
+          <Typography style={{ fontWeight: 600 }}>{'Sub Total'}</Typography>
         </Box>
         <Box style={{ width: '38%', ...colStyles }}>
-          <Typography style={{ fontWeight: 600 }}>{subTotal}</Typography>
+          <Typography style={{ fontWeight: 600 }}>{formatRupiah(subTotal)}</Typography>
         </Box>
       </Box>
 
@@ -76,20 +71,8 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
       >
         <Box style={{ width: '62%', ...colStyles }}>
           <Box style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Typography
-              style={{
-                fontWeight: 600,
-                display: 'inline-block',
-              }}
-            >
-              {'Tax '}
-            </Typography>
-            <Typography
-              color="secondary"
-              style={{
-                display: 'inline-block',
-              }}
-            >
+            <Typography style={{ fontWeight: 600 }}>{'Tax '}</Typography>
+            <Typography color="secondary">
               {editable ? (
                 <>
                   <EditableText
@@ -108,7 +91,7 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
           </Box>
         </Box>
         <Box style={{ width: '38%', ...colStyles }}>
-          <Typography style={{ fontWeight: 600 }}>{Number(saleTax)}</Typography>
+          <Typography style={{ fontWeight: 600 }}>{formatRupiah(saleTax || 0)}</Typography>
         </Box>
       </Box>
 
@@ -123,16 +106,10 @@ const InvoiceSummary: FC<Props> = ({ subTotal, taxRate, saleTax }) => {
         }}
       >
         <Box style={{ width: '62%', ...colStyles }}>
-          <Typography
-            style={{
-              fontWeight: 600,
-            }}
-          >
-            {'Total'}
-          </Typography>
+          <Typography style={{ fontWeight: 600 }}>{'Total'}</Typography>
         </Box>
         <Box style={{ width: '38%', ...colStyles }}>
-          <Typography style={{ fontWeight: 600 }}>{total}</Typography>
+          <Typography style={{ fontWeight: 600 }}>{formatRupiah(total)}</Typography>
         </Box>
       </Box>
     </Box>
