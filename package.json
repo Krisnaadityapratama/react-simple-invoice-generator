@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "Simple invoice generator",
   "license": "MIT",
-  "author": "Riski <hi@riski.me>",
+  "author": "Riski <krisnaa.vercel.app>",
   "main": "webpack.config.babel.js",
   "private": false,
   "scripts": {
